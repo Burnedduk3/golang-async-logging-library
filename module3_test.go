@@ -51,7 +51,7 @@ func TestStartMethodCallsShutdownModule3(t *testing.T) {
 	alog.shutdownCompleteCh = make(chan struct{}, 1)
 	go alog.Start()
 	alog.shutdownCh <- struct{}{}
-	time.Sleep(100 * time.Millisecond)
+	time.Sleep(200 * time.Millisecond)
 
 	select {
 	case _, ok := <-alog.msgCh:
@@ -113,7 +113,7 @@ func TestWriteAllBeforeShutdownModule3(t *testing.T) {
 		doneCh <- struct{}{}
 	}()
 	select {
-	case <-time.Tick(1 * time.Second):
+	case <-time.Tick(10 * time.Second):
 		t.Error("Test timed out, please check that the Done method on the wait group is being called in the write method")
 	case <-doneCh:
 	}
